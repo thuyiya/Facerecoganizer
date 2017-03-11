@@ -8,7 +8,7 @@ detector=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # insert data
 
-def insertUpdateData(Id, Name):
+def insertUpdateData(Id,Name):
     conn=sqlite3.connect("FAceBase.db")
     query="SELECT * FROM Emp WHERE ID="+str(Id)
     cursor=conn.execute(query)
@@ -16,10 +16,10 @@ def insertUpdateData(Id, Name):
     for row in cursor:
         isDataExist = True
     if isDataExist : 
-        query="UPDATE Emp * SET Name="+str(Name)+"WHERE ID="+str(Id)
+        query="UPDATE Emp SET Name="+str(Name)+"WHERE ID="+str(Id)
     else:
         query="INSERT INTO Emp(ID, Name) Values("+str(Id)+"," +str(Name)+")"
-    conn.execute()
+    conn.execute(query)
     conn.commit()
     conn.close()
         
@@ -44,7 +44,7 @@ while(True):
         #incrementing sample number 
         sampleNum=sampleNum+1
         #saving the captured face in the dataset folder
-        cv2.imwrite("dataSet/User."+Id +'.'+ str(sampleNum) + ".jpg", gray[y:y+h,x:x+w]) #
+        cv2.imwrite("dataSet/User."+id +'.'+ str(sampleNum) + ".jpg", gray[y:y+h,x:x+w]) #
 
         cv2.imshow('frame',img)
     #wait for 100 miliseconds 
