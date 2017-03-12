@@ -5,6 +5,7 @@ import sqlite3
 cam = cv2.VideoCapture(0)
 detector=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
+capture_count = 20
 
 # insert data
 
@@ -16,7 +17,7 @@ def insertUpdateData(Id,Name):
     for row in cursor:
         isDataExist = True
     if isDataExist : 
-        query="UPDATE Emp SET Name="+str(Name)+"WHERE ID="+str(Id)
+        query="UPDATE Emp SET Name="+str(Name)+" WHERE ID="+str(Id)
     else:
         query="INSERT INTO Emp(ID, Name) Values("+str(Id)+"," +str(Name)+")"
     conn.execute(query)
@@ -37,7 +38,7 @@ sampleNum=0
 while(True):
     ret, img = cam.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = detector.detectMultiScale(gray, 1.3, 5)
+    faces = detector.detectMultiScale(gray, 2, 5)
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         
@@ -51,7 +52,7 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
     # break if the sample number is morethan 20
-    elif sampleNum>20:
+    elif sampleNum>capture_count:
         break
 
 cam.release()

@@ -6,10 +6,10 @@ from PIL import Image
 
 recognizer = cv2.createLBPHFaceRecognizer()
 detector= cv2.CascadeClassifier("haarcascade_frontalface_default.xml");
-
 # Load The Training Data
 
 def getImagesAndLabels(path):
+    print "Traning..."
     #get the path of all the files in the folder
     imagePaths=[os.path.join(path,f) for f in os.listdir(path)] 
     #create empth face list
@@ -34,4 +34,5 @@ def getImagesAndLabels(path):
 
 faces,Ids = getImagesAndLabels('dataSet')
 recognizer.train(faces, np.array(Ids))
+print "----------------------Completed------------------------"
 recognizer.save('trainner/trainner.yml')
